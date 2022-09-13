@@ -1,4 +1,4 @@
-
+//重排链表
 #include<stdio.h>
 
 #define MAXSIZE 100001
