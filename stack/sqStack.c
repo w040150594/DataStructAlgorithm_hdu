@@ -1,9 +1,7 @@
-#include<stdio.h>
-#include<stdlib.h>
 
 #define MAXSIZE 100
 
-typedef int elemType;
+typedef char elemType;
 typedef struct{
     elemType* base;
     elemType* top;
@@ -25,7 +23,7 @@ sqStack* initStack(){
 }
 
 //判断栈是否为空
-int isEmpty(sqStack* s){
+int isEmptyStack(sqStack* s){
     return s->top == s->base;
 }
 
@@ -69,4 +67,33 @@ elemType pop(sqStack* s){
     }
     s->top--;
     return *s->top;
+}
+
+//判断栈是否为满
+int isFullStack(sqStack* s){
+    return s->top - s->base == s->stackSize;
+}
+
+//取栈顶元素
+elemType getTop(sqStack* s){
+    if(s->top == s->base){
+        printf("栈为空");
+        exit(0);
+    }
+    return *(s->top - 1);
+}
+
+//遍历栈
+void traverseStack(sqStack* s){
+    while(!isEmptyStack(s)){
+        printf("%c", pop(s));
+    }
+}
+//栈的反转
+sqStack* reverseStack(sqStack* s){
+    sqStack* s1 = initStack();
+    while(!isEmptyStack(s)){
+        push(s1, pop(s));
+    }
+    return s1;
 }

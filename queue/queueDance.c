@@ -23,6 +23,10 @@ int main(){
             break;
         case 'n':
             flag = 0;
+            break;
+        default:
+            printf("输入错误\n");
+            continue;
         }
     }
     flag = 1;
@@ -37,6 +41,10 @@ int main(){
             break;
         case 'n':
             flag = 0;
+            break;
+        default:
+            printf("输入错误");
+            continue;
         }
     }
     printf("下一支舞曲，舞伴配对如下：\n");

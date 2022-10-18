@@ -1,5 +1,16 @@
-//循环队列
-#include"queue.h"
+#define MAXSIZE 100
+// typedef struct{
+//     char name[50];
+// }people;
+
+// typedef people elemType;
+typedef char elemType;
+
+typedef struct{
+    elemType* base;
+    int front, rear;
+}sqQueue;
+
 //构造空队列
 sqQueue* initQueue(){
     sqQueue* q;
@@ -14,7 +25,7 @@ sqQueue* initQueue(){
 }
 
 //判断队列是否为空
-int isEmpty(sqQueue* q){
+int isEmptySqueue(sqQueue* q){
     if(q->front == q->rear){
         return 1;
     }
@@ -22,13 +33,13 @@ int isEmpty(sqQueue* q){
 }
 
 //入队
-void enQueue(sqQueue* q, elemType* e){
+void enQueue(sqQueue* q, elemType e){
     //牺牲最后一个空间来判断队列是否已满
     if((q->rear + 1) % MAXSIZE == q->front){
         printf("队列已满");
         exit(0);
     }
-    q->base[q->rear] = *e;
+    q->base[q->rear] = e;
     q->rear = (q->rear + 1) % MAXSIZE;
 }
 
@@ -75,7 +86,7 @@ void traverseQueue(sqQueue* q){
         exit(0);
     }
     while(i != q->rear){
-        printf("%d ", q->base[i]);
+        printf("%c ", q->base[i]);
         i = (i + 1) % MAXSIZE;
     }
 }

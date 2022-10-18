@@ -5,6 +5,7 @@
 //     char name[50];
 // }people;
 
+// typedef people elemType;
 typedef int elemType;
 
 typedef struct{
