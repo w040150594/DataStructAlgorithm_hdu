@@ -8,7 +8,7 @@
 void transFormation(char* language, int* length, sqStack* s, sqQueue* q){
   //遍历输入的魔王语言
   for(int i = 0; i < *length; i++){
-    //没找到第一个右括号前，依次入栈
+    //没找到第一个右括号前，从左至右依次入栈
     if(language[i] != ')'){
       push(s, language[i]);
     }
@@ -20,33 +20,47 @@ void transFormation(char* language, int* length, sqStack* s, sqQueue* q){
       }
       //出栈左括号
       pop(s);
-
+      //按照规则出队入栈
       while(getLength(q) != 1){
         push(s, getTail(q));
-        push(s, getHead(q));
-        deQueue(q);
+        //入栈一个就出队一个
+        push(s, deQueue(q));
       }
-      push(s, getTail(q));
-      deQueue(q);
+      //剩下的最后一个元素直接入栈
+      push(s, deQueue(q));
     }
   }
 }
 
-void isError(char* language, int length){
-  int left = 0;
-  int right = 0;
+int isError(char* language, int length){
+  sqStack* temp = initStack();
+  int flag = 1;
   for(int i = 0; i < length; i++){
     if(language[i] == '('){
-      left++;
+      //如果是左括号直接入栈
+      push(temp, language[i]);
     }
+    //如果是右括号判断与栈顶元素是否匹配
     else if(language[i] == ')'){
-      right++;
+      //如果匹配就出栈
+      if(getTop(temp) == '('){
+        pop(temp);
+      }
+      else{
+        flag = 0;
+      }
+    }
+    else if((language[i] < 'A' || language[i] > 'z') || (language[i] > 'Z' && language[i] < 'a')){
+      flag = 0;
     }
   }
-  if(left != right){
-    printf("输入的魔王语言有误");
-    exit(0);
+
+  if(flag == 0 || !isEmptyStack(temp)){
+    printf("输入的魔王语言有误!\n");
+    printf("-----------------------\n");
+    return 0;
   }
+  return 1;
 }
 
 int main(){
@@ -56,14 +70,18 @@ int main(){
   sqQueue* q = initQueue();
   sqStack* s = initStack();
   char language[MAXSIZE];
-  printf("请输入魔王语言：\n");
-  scanf("%s", language);
-  int length = strlen(language);
-  //判断输入的魔王语言是否合法
-  isError(language, length);
+  int flag = 1, length = 0;
+  do{
+    printf("请输入魔王语言：\n");
+    scanf("%s", language);
+    length = strlen(language);
+    //判断输入的魔王语言是否合法
+    flag = isError(language, length);
+  } while(flag == 0);
   //翻译转换魔王语言
   transFormation(language, &length, s, q);
-  printf("解释后的语言为：");
+  printf("-----------------------\n");
+  printf("解释后的语言为：\n");
   //反转栈
   sqStack* s1 = reverseStack(s);
   //转换AB并输出
@@ -82,5 +100,6 @@ int main(){
       break;
     }
   }
+  printf("\n-----------------------\n");
   return 0;
 }

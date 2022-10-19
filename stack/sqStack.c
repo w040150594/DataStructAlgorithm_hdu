@@ -77,8 +77,8 @@ int isFullStack(sqStack* s){
 //取栈顶元素
 elemType getTop(sqStack* s){
     if(s->top == s->base){
-        printf("栈为空");
-        exit(0);
+        // printf("栈为空");
+        // exit(0);
     }
     return *(s->top - 1);
 }
